@@ -1,0 +1,22 @@
+# Web framework
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+
+# LangChain core + providers
+langchain-core>=0.3.60
+langchain-google-genai>=2.1.0
+langchain-groq>=0.3.0
+
+# Vector DB (uses built-in ONNXRuntime embeddings — no PyTorch needed)
+chromadb>=0.5.0
+
+# Database
+psycopg2-binary>=2.9.0
+
+# SQL parsing & guardrails
+sqlparse>=0.5.0
+
+# Environment & config
+python-dotenv>=1.0.0
+pydantic-settings>=2.7.0

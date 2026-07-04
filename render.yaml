@@ -1,0 +1,23 @@
+# Render Blueprint — One-click deploy for AskSQL backend
+# Docs: https://docs.render.com/blueprint-spec
+
+services:
+  - type: web
+    name: asksql-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    repo: https://github.com/Rohan797217/ASK_SQL
+    branch: main
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false  # Set manually in Render dashboard
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false  # Set to your Vercel URL after deploying frontend
+      - key: PYTHONIOENCODING
+        value: utf-8

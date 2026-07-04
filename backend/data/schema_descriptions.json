@@ -1,0 +1,180 @@
+{
+  "tables": [
+    {
+      "table_name": "categories",
+      "description": "Product categories. Each category groups related products together (e.g., Beverages, Seafood, Dairy Products). Used to classify and organize the product catalog.",
+      "columns": [
+        {"name": "category_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each product category"},
+        {"name": "category_name", "type": "VARCHAR(100)", "description": "Name of the category (e.g., 'Beverages', 'Condiments', 'Seafood')"},
+        {"name": "description", "type": "TEXT", "description": "Detailed description of what products belong in this category"}
+      ],
+      "sample_questions": [
+        "How many categories do we have?",
+        "List all product categories"
+      ]
+    },
+    {
+      "table_name": "customers",
+      "description": "Customer companies that purchase products. Contains company details, contact information, and geographic location. Each customer can place multiple orders.",
+      "columns": [
+        {"name": "customer_id", "type": "VARCHAR(10) PRIMARY KEY", "description": "Unique 5-letter identifier for each customer (e.g., 'ALFKI')"},
+        {"name": "company_name", "type": "VARCHAR(100)", "description": "Official name of the customer company"},
+        {"name": "contact_name", "type": "VARCHAR(100)", "description": "Name of the primary contact person at the company"},
+        {"name": "contact_title", "type": "VARCHAR(50)", "description": "Job title of the contact person (e.g., 'Sales Representative', 'Owner')"},
+        {"name": "address", "type": "VARCHAR(200)", "description": "Street address of the company"},
+        {"name": "city", "type": "VARCHAR(100)", "description": "City where the company is located"},
+        {"name": "region", "type": "VARCHAR(50)", "description": "State, province, or region (may be NULL for some countries)"},
+        {"name": "postal_code", "type": "VARCHAR(20)", "description": "Postal or ZIP code"},
+        {"name": "country", "type": "VARCHAR(100)", "description": "Country where the company is located (e.g., 'Germany', 'USA', 'Brazil')"},
+        {"name": "phone", "type": "VARCHAR(30)", "description": "Company phone number"},
+        {"name": "fax", "type": "VARCHAR(30)", "description": "Company fax number"}
+      ],
+      "sample_questions": [
+        "How many customers are from Germany?",
+        "List all customers in the UK",
+        "Which countries have the most customers?"
+      ]
+    },
+    {
+      "table_name": "employees",
+      "description": "Sales employees who handle orders. Contains personal details, hire dates, and reporting hierarchy. Employees are assigned to orders as the sales representative responsible.",
+      "columns": [
+        {"name": "employee_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each employee"},
+        {"name": "last_name", "type": "VARCHAR(100)", "description": "Employee's last/family name"},
+        {"name": "first_name", "type": "VARCHAR(100)", "description": "Employee's first/given name"},
+        {"name": "title", "type": "VARCHAR(100)", "description": "Job title (e.g., 'Sales Representative', 'Sales Manager', 'Vice President Sales')"},
+        {"name": "birth_date", "type": "DATE", "description": "Employee's date of birth"},
+        {"name": "hire_date", "type": "DATE", "description": "Date the employee was hired"},
+        {"name": "address", "type": "VARCHAR(200)", "description": "Employee's street address"},
+        {"name": "city", "type": "VARCHAR(100)", "description": "City where the employee is located"},
+        {"name": "region", "type": "VARCHAR(50)", "description": "State or region"},
+        {"name": "postal_code", "type": "VARCHAR(20)", "description": "Postal code"},
+        {"name": "country", "type": "VARCHAR(100)", "description": "Country where the employee is located"},
+        {"name": "phone", "type": "VARCHAR(30)", "description": "Employee's phone number"},
+        {"name": "reports_to", "type": "INTEGER FK→employees", "description": "Employee ID of this employee's manager (self-referencing hierarchy)"}
+      ],
+      "sample_questions": [
+        "Who are all the sales representatives?",
+        "Which employee has handled the most orders?",
+        "Show the employee reporting hierarchy"
+      ]
+    },
+    {
+      "table_name": "suppliers",
+      "description": "Companies that supply/manufacture products. Contains supplier contact details and location. Each supplier can provide multiple products.",
+      "columns": [
+        {"name": "supplier_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each supplier"},
+        {"name": "company_name", "type": "VARCHAR(100)", "description": "Official name of the supplier company"},
+        {"name": "contact_name", "type": "VARCHAR(100)", "description": "Name of the primary contact at the supplier"},
+        {"name": "contact_title", "type": "VARCHAR(50)", "description": "Job title of the supplier contact"},
+        {"name": "address", "type": "VARCHAR(200)", "description": "Street address of the supplier"},
+        {"name": "city", "type": "VARCHAR(100)", "description": "City where the supplier is located"},
+        {"name": "region", "type": "VARCHAR(50)", "description": "State, province, or region"},
+        {"name": "postal_code", "type": "VARCHAR(20)", "description": "Postal code"},
+        {"name": "country", "type": "VARCHAR(100)", "description": "Country where the supplier is located"},
+        {"name": "phone", "type": "VARCHAR(30)", "description": "Supplier phone number"},
+        {"name": "fax", "type": "VARCHAR(30)", "description": "Supplier fax number"},
+        {"name": "homepage", "type": "TEXT", "description": "Supplier's website URL"}
+      ],
+      "sample_questions": [
+        "Which suppliers are from Japan?",
+        "How many products does each supplier provide?"
+      ]
+    },
+    {
+      "table_name": "shippers",
+      "description": "Shipping/delivery companies used to transport orders to customers. Each order is assigned one shipper.",
+      "columns": [
+        {"name": "shipper_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each shipping company"},
+        {"name": "company_name", "type": "VARCHAR(100)", "description": "Name of the shipping company (e.g., 'Speedy Express', 'Federal Shipping')"},
+        {"name": "phone", "type": "VARCHAR(30)", "description": "Shipper's phone number"}
+      ],
+      "sample_questions": [
+        "Which shipping companies do we use?",
+        "Which shipper handles the most orders?"
+      ]
+    },
+    {
+      "table_name": "products",
+      "description": "Products available for sale. Each product belongs to a category and is provided by a supplier. Contains pricing, stock levels, and discontinuation status.",
+      "columns": [
+        {"name": "product_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each product"},
+        {"name": "product_name", "type": "VARCHAR(100)", "description": "Name of the product (e.g., 'Chai', 'Chang', 'Tofu')"},
+        {"name": "supplier_id", "type": "INTEGER FK→suppliers", "description": "ID of the supplier who provides this product"},
+        {"name": "category_id", "type": "INTEGER FK→categories", "description": "ID of the category this product belongs to"},
+        {"name": "quantity_per_unit", "type": "VARCHAR(50)", "description": "Description of the packaging (e.g., '10 boxes x 20 bags', '24 - 12 oz bottles')"},
+        {"name": "unit_price", "type": "NUMERIC(10,2)", "description": "Current price per unit in dollars"},
+        {"name": "units_in_stock", "type": "INTEGER", "description": "Number of units currently in warehouse stock"},
+        {"name": "units_on_order", "type": "INTEGER", "description": "Number of units currently on order from the supplier"},
+        {"name": "reorder_level", "type": "INTEGER", "description": "Minimum stock level that triggers a reorder"},
+        {"name": "discontinued", "type": "BOOLEAN", "description": "Whether the product is discontinued (true = no longer sold)"}
+      ],
+      "sample_questions": [
+        "What are the most expensive products?",
+        "Which products are discontinued?",
+        "Which products need to be reordered (stock below reorder level)?",
+        "How many products are in each category?"
+      ]
+    },
+    {
+      "table_name": "orders",
+      "description": "Customer orders/purchases. Links customers to employees (sales reps) and shippers. Contains order dates, shipping details, and freight costs. Each order can have multiple line items in the order_details table.",
+      "columns": [
+        {"name": "order_id", "type": "SERIAL PRIMARY KEY", "description": "Unique identifier for each order"},
+        {"name": "customer_id", "type": "VARCHAR(10) FK→customers", "description": "ID of the customer who placed this order"},
+        {"name": "employee_id", "type": "INTEGER FK→employees", "description": "ID of the employee/sales rep who handled this order"},
+        {"name": "order_date", "type": "DATE", "description": "Date the order was placed"},
+        {"name": "required_date", "type": "DATE", "description": "Date the customer requested delivery by"},
+        {"name": "shipped_date", "type": "DATE", "description": "Date the order was actually shipped (NULL if not yet shipped)"},
+        {"name": "shipper_id", "type": "INTEGER FK→shippers", "description": "ID of the shipping company used for this order"},
+        {"name": "freight", "type": "NUMERIC(10,2)", "description": "Shipping/freight cost in dollars"},
+        {"name": "ship_name", "type": "VARCHAR(100)", "description": "Name of the recipient (usually the customer company name)"},
+        {"name": "ship_address", "type": "VARCHAR(200)", "description": "Delivery street address"},
+        {"name": "ship_city", "type": "VARCHAR(100)", "description": "Delivery city"},
+        {"name": "ship_region", "type": "VARCHAR(50)", "description": "Delivery state/region"},
+        {"name": "ship_postal_code", "type": "VARCHAR(20)", "description": "Delivery postal code"},
+        {"name": "ship_country", "type": "VARCHAR(100)", "description": "Delivery country"}
+      ],
+      "sample_questions": [
+        "How many orders were placed each month?",
+        "Which orders haven't been shipped yet?",
+        "What is the average freight cost per country?",
+        "Which customer placed the most orders?"
+      ]
+    },
+    {
+      "table_name": "order_details",
+      "description": "Line items within each order. Each row represents one product in an order, with its quantity, price at time of sale, and any discount applied. To calculate revenue: unit_price * quantity * (1 - discount).",
+      "columns": [
+        {"name": "order_id", "type": "INTEGER FK→orders", "description": "ID of the order this line item belongs to (part of composite primary key)"},
+        {"name": "product_id", "type": "INTEGER FK→products", "description": "ID of the product ordered (part of composite primary key)"},
+        {"name": "unit_price", "type": "NUMERIC(10,2)", "description": "Price per unit at the time of the order (may differ from current product price)"},
+        {"name": "quantity", "type": "INTEGER", "description": "Number of units ordered"},
+        {"name": "discount", "type": "NUMERIC(4,2)", "description": "Discount percentage applied (0.00 = no discount, 0.10 = 10% off, 0.25 = 25% off)"}
+      ],
+      "sample_questions": [
+        "What are the top 5 products by total revenue?",
+        "What is the total revenue across all orders?",
+        "What is the average order value?",
+        "Which products are most frequently ordered together?"
+      ]
+    }
+  ],
+  "relationships": [
+    "products.category_id → categories.category_id (each product belongs to one category)",
+    "products.supplier_id → suppliers.supplier_id (each product comes from one supplier)",
+    "orders.customer_id → customers.customer_id (each order is placed by one customer)",
+    "orders.employee_id → employees.employee_id (each order is handled by one sales rep)",
+    "orders.shipper_id → shippers.shipper_id (each order uses one shipping company)",
+    "order_details.order_id → orders.order_id (each line item belongs to one order)",
+    "order_details.product_id → products.product_id (each line item references one product)",
+    "employees.reports_to → employees.employee_id (employee reporting hierarchy)"
+  ],
+  "common_patterns": {
+    "revenue_calculation": "SUM(od.unit_price * od.quantity * (1 - od.discount))",
+    "order_total": "SUM(od.unit_price * od.quantity * (1 - od.discount)) + o.freight",
+    "pending_orders": "WHERE o.shipped_date IS NULL",
+    "product_with_category": "JOIN categories c ON p.category_id = c.category_id",
+    "full_order_info": "orders o JOIN order_details od ON o.order_id = od.order_id JOIN products p ON od.product_id = p.product_id"
+  }
+}
