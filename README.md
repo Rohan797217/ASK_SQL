@@ -54,6 +54,14 @@ AskSQL is a **full-stack AI assistant** that converts natural language questions
 
 ## 🏗️ Architecture
 
+<div align="center">
+
+![AskSQL Architecture](docs/architecture.png)
+
+</div>
+
+**Pipeline flow:**
+
 ```
 User question (plain English)
         │
